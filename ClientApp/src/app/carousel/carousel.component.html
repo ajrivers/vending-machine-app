@@ -8,9 +8,16 @@
     <div class="item {{ isActive(i) ? 'active' : '' }} product" *ngFor="let item of carouselItems; let i = index">
       <img [src]="item.product.imageUrl" class="img-responsive" />
       <div class="carousel-caption">
-        <h4>{{ item.product.name }}</h4>        
+        <h4>{{ item.product.name }} - {{item.product.price}} € - [{{item.amount}} available]</h4>
       </div>
     </div>
   </div>
+
+  <a [href]="'#' + carouselId" class="carousel-control left" data-slide="prev">
+    <span class="icon-prev"></span>
+  </a>
+  <a [href]="'#' + carouselId" class="carousel-control right" data-slide="next">
+    <span class="icon-next"></span>
+  </a>
 
 </div>

@@ -10,7 +10,7 @@ using VendingMachineApp.Model;
 namespace VendingMachineApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20181017203122_Initial")]
+    [Migration("20181021153922_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,10 @@ namespace VendingMachineApp.Migrations
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<string>("Name");
 
                     b.Property<double>("Price");
 
