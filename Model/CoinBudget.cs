@@ -17,7 +17,7 @@ namespace VendingMachineApp.Model
         /// <summary>
         /// Coin value
         /// </summary>
-        public int Value { get; set; }
+        public float Value { get; set; }
 
         /// <summary>
         /// Amount of coins available

@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CarouselComponent } from './carousel/carousel.component';
+import { CoinAcceptorComponent } from './coin-acceptor/coin-acceptor.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CarouselComponent } from './carousel/carousel.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    CarouselComponent
+    CarouselComponent,
+    CoinAcceptorComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

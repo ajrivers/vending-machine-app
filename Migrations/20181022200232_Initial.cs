@@ -8,6 +8,20 @@ namespace VendingMachineApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "CoinBudgets",
+                columns: table => new
+                {
+                    CoinBudgetId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Value = table.Column<float>(nullable: false),
+                    Amount = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoinBudgets", x => x.CoinBudgetId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -21,19 +35,6 @@ namespace VendingMachineApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.ProductId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Wallets",
-                columns: table => new
-                {
-                    WalletId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Owner = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Wallets", x => x.WalletId);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,32 +57,6 @@ namespace VendingMachineApp.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "CoinBudgets",
-                columns: table => new
-                {
-                    CoinBudgetId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Value = table.Column<int>(nullable: false),
-                    Amount = table.Column<int>(nullable: false),
-                    WalletId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CoinBudgets", x => x.CoinBudgetId);
-                    table.ForeignKey(
-                        name: "FK_CoinBudgets_Wallets_WalletId",
-                        column: x => x.WalletId,
-                        principalTable: "Wallets",
-                        principalColumn: "WalletId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CoinBudgets_WalletId",
-                table: "CoinBudgets",
-                column: "WalletId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_ProductLines_ProductId",
                 table: "ProductLines",
@@ -95,9 +70,6 @@ namespace VendingMachineApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductLines");
-
-            migrationBuilder.DropTable(
-                name: "Wallets");
 
             migrationBuilder.DropTable(
                 name: "Products");

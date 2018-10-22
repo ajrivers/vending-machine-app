@@ -10,7 +10,7 @@ using VendingMachineApp.Model;
 namespace VendingMachineApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20181021153922_Initial")]
+    [Migration("20181022200232_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,13 +29,9 @@ namespace VendingMachineApp.Migrations
 
                     b.Property<int>("Amount");
 
-                    b.Property<int>("Value");
-
-                    b.Property<int?>("WalletId");
+                    b.Property<float>("Value");
 
                     b.HasKey("CoinBudgetId");
-
-                    b.HasIndex("WalletId");
 
                     b.ToTable("CoinBudgets");
                 });
@@ -74,26 +70,6 @@ namespace VendingMachineApp.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductLines");
-                });
-
-            modelBuilder.Entity("VendingMachineApp.Model.Wallet", b =>
-                {
-                    b.Property<int>("WalletId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Owner");
-
-                    b.HasKey("WalletId");
-
-                    b.ToTable("Wallets");
-                });
-
-            modelBuilder.Entity("VendingMachineApp.Model.CoinBudget", b =>
-                {
-                    b.HasOne("VendingMachineApp.Model.Wallet")
-                        .WithMany("Coins")
-                        .HasForeignKey("WalletId");
                 });
 
             modelBuilder.Entity("VendingMachineApp.Model.ProductLine", b =>

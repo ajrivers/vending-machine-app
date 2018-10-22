@@ -1,0 +1,25 @@
+<div class="panel panel-default col-md-6 col-md-offset-3">
+  <div class="alert alert-info">
+    <h2>Credit: {{ currentCredit | currency : "€" : 2 }}</h2>
+    <button class="btn btn-danger" (click)="resetCredit()">Return</button>
+    <button class="btn btn-success">Confirm</button>
+  </div>
+  <ul id="coinsList" class="list-inline">
+    <li>
+      <img src="../../assets/images/10cent.png" />
+      <button class="btn btn-primary" (click)="addCredit(0.10)">10 cents</button>
+    </li>
+    <li>
+      <img src="../../assets/images/20cent.jpg" />
+      <button class="btn btn-primary" (click)="addCredit(0.20)">20 cents</button>
+    </li>
+    <li>
+      <img src="../../assets/images/50cent.jpg" />
+      <button class="btn btn-primary" (click)="addCredit(0.50)">50 cents</button>
+    </li>
+    <li>
+      <img src="../../assets/images/1euro.jpg" />
+      <button class="btn btn-primary" (click)="addCredit(1.0)">1 euro</button>
+    </li>
+  </ul>
+</div>

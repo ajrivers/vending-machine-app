@@ -17,18 +17,17 @@ namespace VendingMachineApp.Model
             {
                 AppDbContext context = serviceScope.ServiceProvider.GetService<AppDbContext>();
 
-                #region Products (Commented)
+                #region cOINS
 
-                //if(!context.Products.Any())
-                //{
-                //    context.AddRange
-                //        (
-                //            new Product() { ProductId = 1, Type = ProductTypeEnum.Tea, Name = "Tea", ImageUrl = "../../assets/images/tea.jpg" },
-                //            new Product() { ProductId = 2, Type = ProductTypeEnum.Espresso, Name = "Espresso", ImageUrl = "../../assets/images/espresso.jpg" },
-                //            new Product() { ProductId = 3, Type = ProductTypeEnum.Juice, Name = "Juice", ImageUrl = "../../assets/images/juice.png" },
-                //            new Product() { ProductId = 4, Type = ProductTypeEnum.ChickenSoup, Name = "Chicken Soup", ImageUrl = "../../assets/images/chicken-soup.jpg" }
-                //        );
-                //}
+                if(!context.CoinBudgets.Any())
+                {
+                    context.AddRange(
+                        new CoinBudget() { Value = 0.1f, Amount = 100 },
+                        new CoinBudget() { Value = 0.2f, Amount = 100 },
+                        new CoinBudget() { Value = 0.5f, Amount = 100 },
+                        new CoinBudget() { Value = 1.0f, Amount = 100 }
+                    );
+                }
 
                 #endregion
 

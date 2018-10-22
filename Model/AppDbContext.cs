@@ -26,7 +26,6 @@ namespace VendingMachineApp.Model
 
         public DbSet<ProductLine> ProductLines { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Wallet> Wallets { get; set; }
         public DbSet<CoinBudget> CoinBudgets { get; set; }
 
         #endregion
