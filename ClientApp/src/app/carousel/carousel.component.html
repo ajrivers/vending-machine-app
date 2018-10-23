@@ -7,7 +7,7 @@
   <div class="carousel-inner">
     <div class="item {{ isActive(i) ? 'active' : '' }} product" *ngFor="let item of carouselItems; let i = index">
       <img [src]="item.product.imageUrl" class="img-responsive" />
-      <div class="carousel-caption">
+      <div class="carousel-caption" [id]="'product-' + item.product.productId">
         <h4>{{ item.product.name }} - {{item.product.price | currency : "€" : 2}} - [{{item.amount}} available]</h4>
       </div>
     </div>
@@ -19,5 +19,7 @@
   <a [href]="'#' + carouselId" class="carousel-control right" data-slide="next">
     <span class="icon-next"></span>
   </a>
+
+  <div>{{ selectedProductLineId }}</div>
 
 </div>

@@ -11,6 +11,6 @@ namespace VendingMachineApp.Model
 
         void AddCoinBudgets(IEnumerable<CoinBudget> coins);
         bool ReturnCoinBudget(float value);
-        float[] ReturnCoinValues();
+        double[] ReturnCoinValues();
     }
 }

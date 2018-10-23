@@ -17,15 +17,15 @@ namespace VendingMachineApp.Model
             {
                 AppDbContext context = serviceScope.ServiceProvider.GetService<AppDbContext>();
 
-                #region cOINS
+                #region Coins
 
                 if(!context.CoinBudgets.Any())
                 {
                     context.AddRange(
-                        new CoinBudget() { Value = 0.1f, Amount = 100 },
-                        new CoinBudget() { Value = 0.2f, Amount = 100 },
-                        new CoinBudget() { Value = 0.5f, Amount = 100 },
-                        new CoinBudget() { Value = 1.0f, Amount = 100 }
+                        new CoinBudget() { Value = 0.1, Amount = 100 },
+                        new CoinBudget() { Value = 0.2, Amount = 100 },
+                        new CoinBudget() { Value = 0.5, Amount = 100 },
+                        new CoinBudget() { Value = 1.0, Amount = 100 }
                     );
                 }
 

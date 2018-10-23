@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ICoinBudget, CoinBudget } from './coin-budget';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { getBaseUrl } from '../../main';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-coin-acceptor',
@@ -12,18 +16,23 @@ export class CoinAcceptorComponent implements OnInit {
 
   currentCredit: number = 0.0;
   coinsInserted: ICoinBudget[] = [];
+  coinsReturned: ICoinBudget[] = [];
+  baseUrl: string;
 
   //#endregion
 
   //#region Constructor
 
-  constructor() { }
+  constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string)
+  {
+    this.baseUrl = baseUrl;
+  }
 
   //#endregion
 
   //#region Methods
 
-  addCredit(insertedValue: number): void {
+  public addCredit(insertedValue: number): void {
     var coinBudget = this.coinsInserted.find(c => c.value == insertedValue);
     if (coinBudget == null) {
       coinBudget = new CoinBudget();
@@ -38,16 +47,39 @@ export class CoinAcceptorComponent implements OnInit {
     this.currentCredit += insertedValue;
   }
 
-  resetCredit(): void {
+  public resetCredit(): void {
     this.coinsInserted = [];
     this.currentCredit = 0.0;
   }
 
-  confirmCredit(): ICoinBudget[] {
+  public confirmCredit(selectedProduct: number): void {
+    this.coinsReturned = [];
+    var order = {
+      coins: this.coinsInserted,
+      productId: selectedProduct,
+      credit: this.currentCredit
+    };
+    var result;
+    this._http.post(this.baseUrl + 'api/VendingMachine/SellProduct', order)
+      .subscribe(
+        (val) => result = val
+    );
 
+    if (result != undefined) {
+      this.coinsReturned = result.returnCoins;
+    }
   }
 
   ngOnInit() {
+  }
+
+  //#endregion
+
+  //#region Private Functions
+
+  private handleError(err) {
+    console.log(err.message); // Maybe it should be better using a logging framework for this.
+    return Observable.throw(err.message);
   }
 
   //#endregion

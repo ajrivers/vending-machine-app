@@ -37,6 +37,7 @@ namespace vending_machine_app
             // Registering Repositories
 
             services.AddTransient<IProductLineRepository, ProductLineRepository>();
+            services.AddTransient<ICoinBudgetRepository, CoinBudgetRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

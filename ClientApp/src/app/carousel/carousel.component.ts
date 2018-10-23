@@ -15,7 +15,8 @@ export class CarouselComponent implements OnInit {
 
   @Input() carouselId: string;
   carouselItems: ICarouselItem[];
-  baseUrl: string; 
+  baseUrl: string;
+  selectedProductLineId: number;
 
   ///#endregion
 
@@ -38,7 +39,8 @@ export class CarouselComponent implements OnInit {
   }
 
   public isActive(i: number): boolean {
-    return this.carouselItems[i].product.imageUrl == this.carouselItems[0].product.imageUrl;
+    var active = this.carouselItems[i].product.productId == this.carouselItems[0].product.productId;
+    return active;
   }
 
   private handleError(err) {

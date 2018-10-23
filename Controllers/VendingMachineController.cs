@@ -39,34 +39,36 @@ namespace VendingMachineApp.Controllers
         }
 
         [HttpPost("[action]")]
-        public JsonResult SellProduct(IEnumerable<CoinBudget> coins, int productId, float credit)
+        public JsonResult SellProduct([FromBody] ProductOrder order)
         {
             try
             {
-                ProductLine selectedProductLine = _productLineRepository.ProductLines.First(p => p.Product.ProductId == productId);
+                ProductLine selectedProductLine = _productLineRepository.ProductLines.First(p => p.Product.ProductId == order.productId);
                 List<CoinBudget> returnCoins = new List<CoinBudget>();
                 if(selectedProductLine != null && selectedProductLine.Amount > 0)
                 {
-                    if(selectedProductLine.Product.Price <= credit)
+                    if(selectedProductLine.Product.Price <= order.credit)
                     {
-                        _coinBudgetRepository.AddCoinBudgets(coins);
-                        float returnCredit = credit - (float)selectedProductLine.Product.Price;
+                        _coinBudgetRepository.AddCoinBudgets(order.coins);
+                        double returnCredit = Math.Round(order.credit - selectedProductLine.Product.Price, 2);
                         if(returnCredit > 0)
                         {
-                            float[] values = _coinBudgetRepository.ReturnCoinValues();
+                            double[] values = _coinBudgetRepository.ReturnCoinValues().OrderByDescending(v => v).ToArray<double>();
                             foreach(float value in values)
                             {
                                 bool emptyBudget = false;
-                                while (returnCredit > value && !emptyBudget)
+                                while (returnCredit >= value && !emptyBudget)
                                 {
                                     emptyBudget = !_coinBudgetRepository.ReturnCoinBudget(value);
                                     if (!emptyBudget)
                                     {
-                                        CoinBudget returnCoin = returnCoins.First(cb => cb.Value == value);
+                                        CoinBudget returnCoin = returnCoins.FirstOrDefault(cb => cb.Value == value);
                                         if (returnCoin == null)
                                             returnCoins.Add(new CoinBudget() { Value = value, Amount = 1 });
                                         else
                                             returnCoin.Amount++;
+
+                                        returnCredit = Math.Round(returnCredit - value, 2);
                                     }
                                 }
 
@@ -77,7 +79,7 @@ namespace VendingMachineApp.Controllers
                     }
                     else
                     {
-                        float creditLeft = (float)selectedProductLine.Product.Price - credit;
+                        double creditLeft = selectedProductLine.Product.Price - order.credit;
                         return new JsonResult(new { Success = false, Message = string.Format("You need to insert {0} to buy this product", creditLeft) });
                     }
                 }

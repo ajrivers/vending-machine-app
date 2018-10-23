@@ -67,9 +67,9 @@ namespace VendingMachineApp.Model
             return result;
         }
 
-        public float[] ReturnCoinValues()
+        public double[] ReturnCoinValues()
         {
-            return _appDbContext.CoinBudgets.OrderByDescending(cb => cb.Value).Select(cb => cb.Value).Distinct().ToArray<float>();
+            return _appDbContext.CoinBudgets.OrderByDescending(cb => cb.Value).Select(cb => cb.Value).Distinct().ToArray<double>();
         }
 
         #endregion
