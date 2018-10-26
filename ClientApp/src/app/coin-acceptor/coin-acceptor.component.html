@@ -2,7 +2,7 @@
   <div class="alert alert-info">
     <h2>Credit: {{ currentCredit | currency : "€" : 2 }}</h2>
     <button class="btn btn-danger" (click)="resetCredit()">Return</button>
-    <button class="btn btn-success" (click)="confirmCredit(1, currentCredit)">Confirm</button>
+    <button class="btn btn-success" (click)="confirmCredit()">Confirm</button>
   </div>
   <ul id="coinsList" class="list-inline">
     <li>

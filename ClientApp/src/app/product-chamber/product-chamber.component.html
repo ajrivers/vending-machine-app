@@ -1,0 +1,6 @@
+<div class="col-md-3" *ngFor="let item of productLines; let i = index">
+  <button [ngClass]="{'btn':true, 'btn-default':!isSelected(i), 'btn-primary':isSelected(i) }" (click)="selectProduct(item.productLineId)">
+    <img [src]="item.product.imageUrl" class="img-responsive" [alt]="item.product.name" />
+    <div class="alert alert-info">{{item.product.price | currency : "€" : 2}} - [{{item.amount}} available]</div>
+  </button>
+</div>

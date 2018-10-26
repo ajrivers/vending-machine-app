@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { getBaseUrl } from '../../main';
 import { catchError } from 'rxjs/operators';
+import { SelectedProductService } from '../product-chamber/selected-product.service';
 
 @Component({
   selector: 'app-coin-acceptor',
@@ -23,7 +24,7 @@ export class CoinAcceptorComponent implements OnInit {
 
   //#region Constructor
 
-  constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string)
+  constructor(private _http: HttpClient, private _selectedProductService: SelectedProductService, @Inject('BASE_URL') baseUrl: string)
   {
     this.baseUrl = baseUrl;
   }
@@ -52,8 +53,9 @@ export class CoinAcceptorComponent implements OnInit {
     this.currentCredit = 0.0;
   }
 
-  public confirmCredit(selectedProduct: number): void {
+  public confirmCredit(): void {
     this.coinsReturned = [];
+    var selectedProduct = this._selectedProductService.getSelected();
     var order = {
       coins: this.coinsInserted,
       productId: selectedProduct,

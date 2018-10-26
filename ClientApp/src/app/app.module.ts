@@ -11,6 +11,8 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { CoinAcceptorComponent } from './coin-acceptor/coin-acceptor.component';
+import { ProductChamberComponent } from './product-chamber/product-chamber.component';
+import { SelectedProductService } from './product-chamber/selected-product.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { CoinAcceptorComponent } from './coin-acceptor/coin-acceptor.component';
     CounterComponent,
     FetchDataComponent,
     CarouselComponent,
-    CoinAcceptorComponent
+    CoinAcceptorComponent,
+    ProductChamberComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -32,7 +35,7 @@ import { CoinAcceptorComponent } from './coin-acceptor/coin-acceptor.component';
       { path: 'fetch-data', component: FetchDataComponent },
     ])
   ],
-  providers: [],
+  providers: [SelectedProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
