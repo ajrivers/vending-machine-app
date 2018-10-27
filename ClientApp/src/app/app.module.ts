@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { CarouselComponent } from './carousel/carousel.component';
 import { CoinAcceptorComponent } from './coin-acceptor/coin-acceptor.component';
 import { ProductChamberComponent } from './product-chamber/product-chamber.component';
 import { SelectedProductService } from './product-chamber/selected-product.service';
@@ -13,7 +12,6 @@ import { SelectedProductService } from './product-chamber/selected-product.servi
 @NgModule({
   declarations: [
     AppComponent,
-    CarouselComponent,
     CoinAcceptorComponent,
     ProductChamberComponent
   ],
