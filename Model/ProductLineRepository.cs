@@ -35,5 +35,24 @@ namespace VendingMachineApp.Model
         }
 
         #endregion
+
+        #region Methods
+
+        public ProductLine GetProductLineById(int productLineId)
+        {
+            return _appDbContext.ProductLines.FirstOrDefault(pl => pl.ProductLineId == productLineId);
+        }
+
+        public void DeliverProductLine(int productLineId)
+        {
+            ProductLine selected = _appDbContext.ProductLines.FirstOrDefault(pl => pl.ProductLineId == productLineId);
+            if(selected != null)
+            {
+                selected.Amount--;
+                _appDbContext.SaveChanges();
+            }
+        }
+
+        #endregion
     }
 }

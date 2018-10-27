@@ -34,7 +34,7 @@ namespace VendingMachineApp.Model
         /// <summary>
         /// Price of the product, in euros
         /// </summary>
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         #endregion
     }

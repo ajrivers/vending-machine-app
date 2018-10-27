@@ -1,7 +1,7 @@
 <div class="panel panel-default col-md-6 col-md-offset-3">
   <div class="alert alert-info">
     <h2>Credit: {{ currentCredit | currency : "€" : 2 }}</h2>
-    <button class="btn btn-danger" (click)="resetCredit()">Return</button>
+    <button class="btn btn-danger" (click)="returnCredit()">Return</button>
     <button class="btn btn-success" (click)="confirmCredit()">Confirm</button>
   </div>
   <ul id="coinsList" class="list-inline">
@@ -23,3 +23,24 @@
     </li>
   </ul>
 </div>
+
+<div *ngIf="operationResult != undefined" class="panel {{ operationResult.success ? 'panel-success' : 'panel-danger' }} col-md-6 col-md-offset-3">
+  <div class="panel-heading"> {{ operationResult.success ? 'Operation Completed!' : 'Operation Error!' }} </div>
+  <div class="panel-body">
+    <p>{{ operationResult.message }}</p>
+    <div *ngIf="operationResult.success && (operationResult.coinsReturned.length > 0)">
+      <p>You've been returned: {{ operationResult.total | currency : "€" : 2}}</p>
+      <div *ngFor="let coin of operationResult.coinsReturned">
+        <img *ngIf="coin.value == 0.10" src="../../assets/images/10cent.png" />
+        <img *ngIf="coin.value == 0.20" src="../../assets/images/20cent.jpg" />
+        <img *ngIf="coin.value == 0.50" src="../../assets/images/50cent.jpg" />
+        <img *ngIf="coin.value == 1" src="../../assets/images/1euro.jpg" />
+        Amount: {{ coin.amount }}
+      </div>
+    </div>
+    <div *ngIf="operationResult.success">
+      <button class="btn btn-info" (click)="retrieveProduct()">Retrieve Product</button>
+    </div>    
+  </div>  
+</div>
+

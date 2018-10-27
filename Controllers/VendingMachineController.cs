@@ -38,23 +38,31 @@ namespace VendingMachineApp.Controllers
             return _productLineRepository.ProductLines;
         }
 
+        [HttpGet("[action]/{productLineId}")]
+        public ProductLine GetProductLine(int productLineId)
+        {
+            return _productLineRepository.GetProductLineById(productLineId);
+        }
+
         [HttpPost("[action]")]
         public JsonResult SellProduct([FromBody] ProductOrder order)
         {
             try
             {
                 ProductLine selectedProductLine = _productLineRepository.ProductLines.First(p => p.Product.ProductId == order.productId);
+                decimal returnCredit = (decimal)(order.credit - selectedProductLine.Product.Price);
                 List<CoinBudget> returnCoins = new List<CoinBudget>();
                 if(selectedProductLine != null && selectedProductLine.Amount > 0)
                 {
                     if(selectedProductLine.Product.Price <= order.credit)
                     {
                         _coinBudgetRepository.AddCoinBudgets(order.coins);
-                        double returnCredit = Math.Round(order.credit - selectedProductLine.Product.Price, 2);
+                        _productLineRepository.DeliverProductLine(selectedProductLine.ProductLineId);
+                        
                         if(returnCredit > 0)
                         {
-                            double[] values = _coinBudgetRepository.ReturnCoinValues().OrderByDescending(v => v).ToArray<double>();
-                            foreach(float value in values)
+                            decimal[] values = _coinBudgetRepository.ReturnCoinValues();
+                            foreach(decimal value in values)
                             {
                                 bool emptyBudget = false;
                                 while (returnCredit >= value && !emptyBudget)
@@ -79,8 +87,8 @@ namespace VendingMachineApp.Controllers
                     }
                     else
                     {
-                        double creditLeft = selectedProductLine.Product.Price - order.credit;
-                        return new JsonResult(new { Success = false, Message = string.Format("You need to insert {0} to buy this product", creditLeft) });
+                        decimal creditLeft = selectedProductLine.Product.Price - order.credit;
+                        return new JsonResult(new { Success = false, Message = string.Format("Insufficient Amount. You need to insert {0} to buy this product", creditLeft) });
                     }
                 }
                 else
@@ -88,7 +96,15 @@ namespace VendingMachineApp.Controllers
                     return new JsonResult(new { Success = false, Message = "Product Not Available!" });
                 }
 
-                return new JsonResult(new { Success = true, Message = "Product Delivered!", Coins = returnCoins });
+                string sMessage = "Thank You!!";
+                if (returnCredit > 0)
+                    sMessage += string.Format(" Unable to return €{0:N2}", returnCredit);
+
+                return new JsonResult(new { Success = true,
+                    Message = sMessage,
+                    CoinsReturned = returnCoins,
+                    Total = returnCoins != null ? returnCoins.Sum(cb => (cb.Amount * cb.Value)) : 0
+                    });
             }
             catch(Exception ex)
             {

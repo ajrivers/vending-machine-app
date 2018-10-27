@@ -9,6 +9,6 @@ namespace VendingMachineApp.Model
     {
         public IEnumerable<CoinBudget> coins { get; set; }
         public int productId { get; set; }
-        public double credit { get; set; }
+        public decimal credit { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace VendingMachineApp.Model
         IEnumerable<CoinBudget> CoinBudgets { get; }
 
         void AddCoinBudgets(IEnumerable<CoinBudget> coins);
-        bool ReturnCoinBudget(float value);
-        double[] ReturnCoinValues();
+        bool ReturnCoinBudget(decimal value);
+        decimal[] ReturnCoinValues();
     }
 }

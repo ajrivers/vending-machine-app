@@ -1,4 +1,4 @@
-export interface ICoinBudget {  
+export interface ICoinBudget {
   value: number;
   amount: number;
 }

@@ -46,13 +46,13 @@ namespace VendingMachineApp.Model
                 if (existingCB == null)
                     _appDbContext.CoinBudgets.Add(new CoinBudget() { Value = coin.Value, Amount = 1 });
                 else
-                    existingCB.Amount += 1;
+                    existingCB.Amount += coin.Amount;
             }
 
             _appDbContext.SaveChanges();
         }
 
-        public bool ReturnCoinBudget(float value)
+        public bool ReturnCoinBudget(decimal value)
         {
             bool result = false;
 
@@ -67,9 +67,9 @@ namespace VendingMachineApp.Model
             return result;
         }
 
-        public double[] ReturnCoinValues()
+        public decimal[] ReturnCoinValues()
         {
-            return _appDbContext.CoinBudgets.OrderByDescending(cb => cb.Value).Select(cb => cb.Value).Distinct().ToArray<double>();
+            return _appDbContext.CoinBudgets.OrderByDescending(cb => cb.Value).Select(cb => cb.Value).Distinct().ToArray<decimal>();
         }
 
         #endregion

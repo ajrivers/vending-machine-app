@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ICoinBudget, CoinBudget } from './coin-budget';
+import { IOperationResult, OperationResult } from './operation-result';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { getBaseUrl } from '../../main';
@@ -17,15 +18,14 @@ export class CoinAcceptorComponent implements OnInit {
 
   currentCredit: number = 0.0;
   coinsInserted: ICoinBudget[] = [];
-  coinsReturned: ICoinBudget[] = [];
+  operationResult: IOperationResult;
   baseUrl: string;
 
   //#endregion
 
   //#region Constructor
 
-  constructor(private _http: HttpClient, private _selectedProductService: SelectedProductService, @Inject('BASE_URL') baseUrl: string)
-  {
+  constructor(private _http: HttpClient, private _selectedProductService: SelectedProductService, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
   }
 
@@ -48,28 +48,52 @@ export class CoinAcceptorComponent implements OnInit {
     this.currentCredit += insertedValue;
   }
 
-  public resetCredit(): void {
-    this.coinsInserted = [];
-    this.currentCredit = 0.0;
+  public returnCredit(): void {
+    this.resetCredit();
   }
 
   public confirmCredit(): void {
-    this.coinsReturned = [];
+    this.operationResult = new OperationResult();
+    this.operationResult.message = "";
     var selectedProduct = this._selectedProductService.getSelected();
+
+    if (selectedProduct != undefined) {
+      this.callVendingMachine(selectedProduct).subscribe(
+        result => {
+          this.operationResult = result;
+          if (this.operationResult.success) {
+            this.resetCredit();
+          }
+        }
+      );
+    }
+    else {
+      this.operationResult.success = false;
+      this.operationResult.message = this.operationResult.message.concat("You must select one product.");
+    }
+  }
+
+  public retrieveProduct(): void {
+    this.resetCredit();
+    this.operationResult = undefined;
+  }
+
+  private callVendingMachine(selectedProduct: number): Observable<IOperationResult> {
+    this.operationResult.coinsReturned = [];
     var order = {
       coins: this.coinsInserted,
       productId: selectedProduct,
       credit: this.currentCredit
     };
-    var result;
-    this._http.post(this.baseUrl + 'api/VendingMachine/SellProduct', order)
-      .subscribe(
-        (val) => result = val
-    );
+    return this._http.post<OperationResult>(this.baseUrl + 'api/VendingMachine/SellProduct', order)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
-    if (result != undefined) {
-      this.coinsReturned = result.returnCoins;
-    }
+  private resetCredit(): void {
+    this.currentCredit = 0.0;
+    this.coinsInserted = [];
   }
 
   ngOnInit() {

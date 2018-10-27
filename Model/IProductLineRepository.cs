@@ -8,5 +8,7 @@ namespace VendingMachineApp.Model
     public interface IProductLineRepository
     {
         IEnumerable<ProductLine> ProductLines { get; }
+        ProductLine GetProductLineById(int productLineId);
+        void DeliverProductLine(int productLineId);
     }
 }

@@ -1,3 +1,3 @@
-﻿DELETE FROM Products
-DELETE FROM ProductLines
+﻿DELETE FROM ProductLines
+DELETE FROM Products
 DELETE FROM CoinBudgets
